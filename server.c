@@ -23,7 +23,7 @@ int socket_desc, new_socket, c;
 struct sockaddr_in server, client;
 char portc[6];
 pid_t pid;
-
+void reverse(struct Node** head_ref);
 void swap(struct Node *a, struct Node *b);
 void dodawanie(struct Node *start);
 void odejmowanie(struct Node *start);
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
 
 						} else if (client_message[1] == 'o') {
 							memset(client_message, 0, sizeof client_message);
-
+							reverse(&start);
 							odejmowanie(start);
 							deleteList(&start);
 
@@ -154,6 +154,7 @@ void dodawanie(struct Node *start) {
 void odejmowanie(struct Node *start) {
 	struct Node * current = start;
 	int i = current->data;
+	current = current->next;
 	while (current != NULL) {
 		printf("%d\n", current->data);
 		i = i - current->data;
@@ -165,6 +166,20 @@ void odejmowanie(struct Node *start) {
 	sprintf(str2, str, i);
 	printf("%s\n", str2);
 	write(new_socket, str2, strlen(str2));
+}
+ void reverse(struct Node** head_ref)
+{
+    struct Node* prev   = NULL;
+    struct Node* current = *head_ref;
+    struct Node* next;
+    while (current != NULL)
+    {
+        next  = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    *head_ref = prev;
 }
 
 void rosnaco(struct Node *start) {
