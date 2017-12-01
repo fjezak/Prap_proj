@@ -1,3 +1,22 @@
+/*
+ ============================================================================
+ Name        : proj_client1.c
+ Author      : fj
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Hello World in C, Ansi-style
+ ============================================================================
+ */
+/*
+ ============================================================================
+ Name        : proj_client.c
+ Author      : fj
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Hello World in C, Ansi-style
+ ============================================================================
+ */
+
 #include<stdio.h>
 #include<string.h>
 #include<sys/socket.h>
@@ -48,15 +67,22 @@ int main(int argc, char *argv[]) {
 		printf("wpisz pierwszą liczbę \n");
 		fgets(liczbac, sizeof(liczbac), stdin);
 		send(sock, liczbac, strlen(liczbac), 0);
+		  memset(liczbac, 0, sizeof liczbac);
 
 		while (flaga) {
 			printf("wpisz kolejną liczbę \n ");
 			fgets(liczbac, sizeof(liczbac), stdin);
 
+
 			if (liczbac[0] == 'N') {
+
 				flaga = 0;
+				memset(liczbac, 0, sizeof liczbac);
+
 			} else {
 				send(sock, liczbac, strlen(liczbac), 0);
+				  memset(liczbac, 0, sizeof liczbac);
+
 			}
 
 		}
@@ -66,11 +92,14 @@ int main(int argc, char *argv[]) {
 		fgets(dzialanie, sizeof(dzialanie), stdin);
 		puts(dzialanie);
 
+
 		if (send(sock, dzialanie, strlen(dzialanie), 0) < 0) {
 			puts("Wysyłanie nie udane");
 
 			return 1;
 		}
+		  memset(dzialanie, 0, sizeof dzialanie);
+
 
 		if (recv(sock, wynik, 2000, 0) < 0) {
 			puts("Odbieranie nie udane");
@@ -83,6 +112,7 @@ int main(int argc, char *argv[]) {
 
 		printf("Jeszcze raz?? T/N \n");
 		fgets(komenda, sizeof(komenda), stdin);
+
 		if (komenda[0] == 'N')
 			flaga2 = 0;
 
